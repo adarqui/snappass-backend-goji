@@ -1,0 +1,15 @@
+{
+    "debug": true,
+    "redis": {
+        "host": "127.0.0.1",
+        "port": 6379,
+        "db": 0,
+        "auth": ""
+    },
+    "web": {
+        "host": "127.0.0.1",
+        "port": 5000,
+        "static": "./snappass-static",
+        "logging": false
+    }
+}

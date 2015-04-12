@@ -1,0 +1,6 @@
+.vendor
+*.swp
+dev
+pkg
+snappass-static
+snappass-backend-goji
