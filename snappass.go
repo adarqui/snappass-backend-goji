@@ -52,8 +52,6 @@ func main() {
 		log.Fatal(prog+": Failure while attempting to parse config file: ", err_config)
 	}
 
-	flag.Set("bind", fmt.Sprintf("%s:%d", parsed_config.Web.Host, parsed_config.Web.Port))
-
 	redisdb, err_redis := snappass_core.NewRedisDatabase(fmt.Sprintf("%s:%d", parsed_config.Redis.Host, parsed_config.Redis.Port), parsed_config.Redis.Auth, parsed_config.Redis.Db)
 	if err_redis != nil {
 		log.Fatal(prog+": Failure while attempting to connect to redis: ", err_redis)
@@ -68,6 +66,8 @@ func main() {
 		log.Fatal(prog+": Failure creating snappass service: ", err)
 	}
 
+    // this is where all the goji magic happens.
+	flag.Set("bind", fmt.Sprintf("%s:%d", parsed_config.Web.Host, parsed_config.Web.Port))
 	goji.Use(gojistatic.Static(parsed_config.Web.Static, gojistatic.StaticOptions{SkipLogging: true}))
 	goji.Get("/key/:key", func(c web.C, w http.ResponseWriter, r *http.Request) { getPassword(snap, c, w, r) })
 	goji.Post("/pass/:password/:ttl", func(c web.C, w http.ResponseWriter, r *http.Request) { postPassword(snap, c, w, r) })
